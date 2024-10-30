@@ -66,7 +66,6 @@ function App() {
 
     setPredictionData(parsePrediction(prediction))
     setAverageConfidence(calculateAverageConfidence(prediction))
-    console.log('averageConfidence', averageConfidence)
   }, [prediction])
 
   const annotationViewerStageRef = useRef<null | Stage>(null)
