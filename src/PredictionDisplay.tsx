@@ -84,11 +84,7 @@ const PredictionDisplay: React.FC<PredictionProps> = ({
   onFieldMouseEnter,
   onFieldMouseLeave,
 }) => {
-  /*const valueFields = Object.entries(prediction).filter(
-    ([key, value]) => value.value !== null,
-  )*/
-
-  // Fixed fields
+  // Fixed fields : locale, document type, total amount, due date, orientation
   const language = getLanguageName(prediction['locale'].language) || 'N/A'
   const currency = getCurrencyName(prediction['locale'].currency) || 'N/A'
   const documentType = prediction['document_type'].value || ''
@@ -105,21 +101,21 @@ const PredictionDisplay: React.FC<PredictionProps> = ({
     ['Orientation', orientationLabel],
   ]
 
-  // Item fields
+  // Line_Item fields
   const itemFields: ItemField[] = []
   prediction['line_items'].map((line_item: ItemField) => {
     itemFields.push(line_item)
   })
 
-  // All Fields
-
   const [isDocumentMetadataOpen, setIsDocumentMetadataOpen] = useState(true)
   const [isAllItemsOpen, setIsAllItemsOpen] = useState(true)
 
+  // Toggle Collapse
   const handleDocumentMetadataToggleCollapse = () => {
     setIsDocumentMetadataOpen(!isDocumentMetadataOpen)
   }
 
+  // Toggle Collapse
   const handleAllItemsToggleCollapse = () => {
     setIsAllItemsOpen(!isAllItemsOpen)
   }
