@@ -50,14 +50,6 @@ export default function DocumentInterface({
               >
                 Upload document
               </Button>
-
-              <Button
-                variant="contained"
-                onClick={() => onClickPredict()}
-                sx={{ paddingInline: 2, textTransform: 'none' }}
-              >
-                Make prediction
-              </Button>
             </Stack>
           </>
         )}
