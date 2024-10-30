@@ -1,27 +1,31 @@
 import { useEffect, useState } from 'react'
 import { Grid, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
+import { usePrediction } from './hooks/usePrediction'
 
 import DocumentInterface from './DocumentInterface'
-
-const API_KEY = import.meta.env.VITE_MINDEE_API_KEY
-
-const mindee = axios.create({ baseURL: 'https://api.mindee.net/v1/products/' })
-
-const usePrediction = () => {
-  return useMutation({
-    mutationFn: async (document: File) => {
-      // call mindee API
-    },
-  })
-}
+import { PredictionData } from './types/types'
+import { parsePrediction } from './parsePrediction'
 
 function App() {
   const [document, setDocument] = useState<File | null>(null)
+  const [predictionData, setPredictionData] = useState<PredictionData[]>([])
 
-  const { mutate: predict, data: prediction } = usePrediction()
-  useEffect(() => console.log('prediction', prediction), [prediction])
+  const { mutate: predict, data: documentInference } = usePrediction()
+
+  const prediction = documentInference?.prediction
+  const orientation = documentInference?.pages[0].orientation.value
+
+  useEffect(() => {
+    document && predict(document)
+  }, [document])
+
+  useEffect(() => {
+    if (!prediction) return
+
+    setPredictionData(parsePrediction(prediction))
+    console.log(predictionData)
+    console.log(orientation)
+  }, [prediction])
 
   return (
     <Grid container rowGap={2} sx={{ height: '100vh', background: '#FCFCFC' }}>
